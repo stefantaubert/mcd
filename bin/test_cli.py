@@ -58,7 +58,7 @@ class TestCliTools(unittest.TestCase):
             synthOutDir = tempDir.location
             p = subprocess.Popen([
                 sys.executable,
-                join(baseDir, 'bin', 'dtw_synth'),
+                join(baseDir, 'bin', 'dtw_synth.py'),
                 '--exts', 'mgc,lf0,bap',
                 '--param_orders', '40,1,5',
                 join(baseDir, 'test_data', 'ref-examples'),
@@ -77,8 +77,8 @@ class TestCliTools(unittest.TestCase):
                 '\n'
                 'overall MCD = 5.883106 (1254 frames)\n'
             )
-            self.assertEqual(stderr, '')
-            self.assertEqual(stdout, stdoutGood)
+            self.assertEqual(stderr.decode("utf-8"), '')
+            self.assertEqual(stdout.decode("utf-8"), stdoutGood)
             synthOutDirGood = join(baseDir, 'test_data', 'out-dtw_synth')
             filenames = [ '%s.mgc' % uttId for uttId in uttIds ]
             match, mismatch, errors = cmpfiles(synthOutDir, synthOutDirGood,
@@ -92,7 +92,7 @@ class TestCliTools(unittest.TestCase):
         uttIds = readUttIds(join(baseDir, 'test_data', 'corpus.lst'))
         p = subprocess.Popen([
             sys.executable,
-            join(baseDir, 'bin', 'get_mcd_dtw'),
+            join(baseDir, 'bin', 'get_mcd_dtw.py'),
             '--ext', 'mgc',
             '--param_order', '40',
             join(baseDir, 'test_data', 'ref-examples'),
@@ -104,15 +104,15 @@ class TestCliTools(unittest.TestCase):
             'processing cmu_us_arctic_slt_a0044\n'
             'overall MCD = 5.883106 (1254 frames)\n'
         )
-        self.assertEqual(stderr, '')
-        self.assertEqual(stdout, stdoutGood)
+        self.assertEqual(stderr.decode("utf-8"), '')
+        self.assertEqual(stdout.decode("utf-8"), stdoutGood)
 
     def test_get_mcd_plain(self):
         """Simple characterization test for get_mcd_plain."""
         uttIds = readUttIds(join(baseDir, 'test_data', 'corpus.lst'))
         p = subprocess.Popen([
             sys.executable,
-            join(baseDir, 'bin', 'get_mcd_plain'),
+            join(baseDir, 'bin', 'get_mcd_plain.py'),
             '--ext', 'mgc',
             '--param_order', '40',
             join(baseDir, 'test_data', 'ref-examples'),
@@ -120,12 +120,12 @@ class TestCliTools(unittest.TestCase):
         ] + uttIds, stdout=PIPE, stderr=PIPE)
         stdout, stderr = p.communicate()
         stdoutGood = (
-            'processing cmu_us_arctic_slt_a0003\n'
-            'processing cmu_us_arctic_slt_a0044\n'
-            'overall MCD = 5.308880 (1254 frames)\n'
+            "('processing', 'cmu_us_arctic_slt_a0003')\n"
+            "('processing', 'cmu_us_arctic_slt_a0044')\n"
+            "overall MCD = 5.308880 (1254 frames)\n"
         )
-        self.assertEqual(stderr, '')
-        self.assertEqual(stdout, stdoutGood)
+        self.assertEqual(stderr.decode("utf-8"), '')
+        self.assertEqual(stdout.decode("utf-8"), stdoutGood)
 
     def test_get_mcd_plain_exc_pau(self):
         """Simple characterization test for get_mcd_plain excluding pau."""
@@ -135,7 +135,7 @@ class TestCliTools(unittest.TestCase):
         )
         p = subprocess.Popen([
             sys.executable,
-            join(baseDir, 'bin', 'get_mcd_plain'),
+            join(baseDir, 'bin', 'get_mcd_plain.py'),
             '--ext', 'mgc',
             '--param_order', '40',
             '--remove_segments', '.-pau\+',
@@ -146,14 +146,13 @@ class TestCliTools(unittest.TestCase):
         ] + uttIds, stdout=PIPE, stderr=PIPE)
         stdout, stderr = p.communicate()
         stdoutGood = (
-            'NOTE: removing segments matching regex \'.-pau\+\' using'
-            ' alignments in %s\n'
-            'processing cmu_us_arctic_slt_a0003\n'
-            'processing cmu_us_arctic_slt_a0044\n'
-            'overall MCD = 5.389857 (1157 frames)\n'
-        ) % alignmentDir
-        self.assertEqual(stderr, '')
-        self.assertEqual(stdout, stdoutGood)
+            f"NOTE: removing segments matching regex '.-pau\\+' using alignments in {alignmentDir}\n"
+            "('processing', 'cmu_us_arctic_slt_a0003')\n"
+            "('processing', 'cmu_us_arctic_slt_a0044')\n"
+            "overall MCD = 5.389857 (1157 frames)\n"
+        )
+        self.assertEqual(stderr.decode("utf-8"), '')
+        self.assertEqual(stdout.decode("utf-8"), stdoutGood)
 
 if __name__ == '__main__':
     unittest.main()
