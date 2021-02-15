@@ -14,4 +14,3 @@ cat test_data/corpus.lst | xargs bin/get_mcd_dtw test_data/ref-examples test_dat
 # warp synthesized speech to have similar timing to the reference
 mkdir out
 cat test_data/corpus.lst | xargs bin/dtw_synth test_data/ref-examples test_data/synth-examples out
-

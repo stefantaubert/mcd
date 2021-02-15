@@ -1,4 +1,4 @@
-#!/usr/bin/python -u
+#!/home/mi/.local/share/virtualenvs/mcd-3xF5WUU1/bin/python -u
 
 """Computes the MCD metric for two sequences of mel cepstra."""
 
@@ -19,7 +19,8 @@ import htk_io.alignment as alio
 import htk_io.vecseq as vsio
 
 from mcd import util
-import mcd.metrics_fast as mt
+#import mcd.metrics_fast as mt
+import mcd.metrics as mt
 
 def main(rawArgs):
     parser = argparse.ArgumentParser(
