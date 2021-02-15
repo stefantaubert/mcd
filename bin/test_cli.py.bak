@@ -23,7 +23,7 @@ from filecmp import cmpfiles
 # (FIXME : bit of a hacky way to find base dir)
 import mcd as mcd_temp
 baseDir = os.path.dirname(os.path.dirname(mcd_temp.__file__))
-print(('(using baseDir %s)' % baseDir))
+print('(using baseDir %s)' % baseDir)
 
 class TempDir(object):
     def __init__(self, prefix='mcd.', removeOnException=False):

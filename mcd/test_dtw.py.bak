@@ -81,7 +81,7 @@ def getDtwDag(xSize, ySize):
     def getChildren(node):
         i, j = node
         possChildren = [(i + 1, j), (i + 1, j + 1), (i, j + 1)]
-        children = list(filter(isValid, possChildren))
+        children = filter(isValid, possChildren)
         return children
 
     childrenDict = dict()

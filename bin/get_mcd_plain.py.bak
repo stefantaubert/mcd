@@ -1,4 +1,3 @@
-#!/home/mi/.local/share/virtualenvs/mcd-3xF5WUU1/bin/python -u
 
 """Computes the MCD metric for two sequences of mel cepstra."""
 
@@ -81,8 +80,8 @@ def main(rawArgs):
     args = parser.parse_args(rawArgs[1:])
     assert (args.removeSegments is None) == (args.alignmentDir is None)
     if args.removeSegments is not None:
-        print ('NOTE: removing segments matching regex \'%s\' using alignments'
-               ' in %s' % (args.removeSegments, args.alignmentDir))
+        print(('NOTE: removing segments matching regex \'%s\' using alignments'
+               ' in %s' % (args.removeSegments, args.alignmentDir)))
     reRemoveSegments = (None if args.removeSegments is None
                         else re.compile(args.removeSegments))
 
@@ -98,7 +97,7 @@ def main(rawArgs):
     costTot = 0.0
     framesTot = 0
     for uttId in args.uttIds:
-        print 'processing', uttId
+        print('processing', uttId)
         nat = getNatVecSeq(uttId)
         synth = getSynthVecSeq(uttId)
         # ignore 0th cepstral component
@@ -133,7 +132,7 @@ def main(rawArgs):
         costTot += cost
         framesTot += frames
 
-    print 'overall MCD = %f (%d frames)' % (costTot / framesTot, framesTot)
+    print('overall MCD = %f (%d frames)' % (costTot / framesTot, framesTot))
 
 if __name__ == '__main__':
     main(sys.argv)
